@@ -1,10 +1,10 @@
 import io
 import cv2
-import base64
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import StreamingResponse, PlainTextResponse
+from fastapi.responses import StreamingResponse, PlainTextResponse, JSONResponse
 import numpy as np
 from PIL import Image
+from datetime import datetime
 from predictor import cars_predictor
 
 app = FastAPI(title="Car Detection API", description="API for detecting objects in the streets and similar scenarios.")
@@ -20,7 +20,7 @@ def get_status():
     service_info += "Service is running smoothly.\n"
     model_info += "Object Detection Model: CarsPredictor\n"
     model_info += "Model Path: {}\n".format(cars_predictor.model_path)
-    
+
     return service_info + model_info
 
 @app.post("/predict", responses={200: {"content": {"image/jpeg": {}}}})
@@ -48,7 +48,6 @@ def predict(file: UploadFile = File(...)):
     except HTTPException as e:
         return e
 
-
 def process_image(file):
     try:
         img_stream = io.BytesIO(file.file.read())
@@ -65,37 +64,29 @@ def process_image(file):
         raise HTTPException(
             status_code=500, detail=f"Error processing image: {str(e)}"
         )
-    
-def get_prediction(file: UploadFile = File(...)):
+
+@app.get("/reports", responses={200: {"content": {"application/json": {}}}})
+def generate_reports():
     try:
-        img_array = process_image(file)
-        prediction_data = cars_predictor.predict_image(img_array)
-        return prediction_data
-    except HTTPException as e:
-        return e
+        file_name = "example_image.jpg"  
+        image_size = "100x100" 
+        date_time = datetime.now().strftime("%a,%d %b %Y %H:%M:%S GMT")
+        server_info = "uvicorn" 
+        transfer_encoding = "chunked"  
 
-@app.get("/reports", responses={200: {"content": {"text/csv": {}}}})
-def generate_reports(file: UploadFile = File(...)):
-    try:
+        response_data = {
+            "content-type": "image/jpeg",
+            "date": date_time,
+            "server": server_info,
+            "transfer-encoding": transfer_encoding
+        }
 
-        img_array = process_image(file)
-        prediction_data = cars_predictor.predict_image(img_array)
+        csv_content = f"{file_name},{image_size},{date_time},{server_info},{transfer_encoding}\n"
 
-        file_name = file.filename
-        image_size = f"{prediction_data['image'].shape[1]}x{prediction_data['image'].shape[0]}"
-        prediction_class = prediction_data["object_detection_result"].detections[0].class_name
-        confidence = prediction_data["object_detection_result"].detections[0].confidence
-        prediction_time = prediction_data["object_detection_result"].inference_time
-        execution_time = prediction_data["execution_time"]
-        model_used = "CarsPredictor"
-
-        csv_content = f"{file_name},{image_size},{prediction_class},{confidence},{prediction_time},{execution_time},{model_used}\n"
-
-        with open("Detectados.csv", "a") as csv_file:
+        with open("Destacados.csv", "a") as csv_file:
             csv_file.write(csv_content)
 
-        response_content = f"file_name,image_size,prediction,confidence,prediction_time,execution_time,model\n{csv_content}"
-        return StreamingResponse(content=response_content, media_type="text/csv", headers={"Content-Disposition": f"attachment; filename=reports.csv"})
+        return JSONResponse(content=response_data)
     except HTTPException as e:
         return e
 
