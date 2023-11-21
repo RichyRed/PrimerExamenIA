@@ -24,4 +24,8 @@ Este endpoint recibe una imagen y devuelve la imagen con la predicción de a qu�
 ## GET /reports
 Este endpoint guarda todas las predicciones realizadas a través del endpoint POST /predict y permite descargarlas como un archivo CSV con información relevante.
 
+## Autor
+* Richard Alejandro Rojas Aguilar
+* 55077
+
 
