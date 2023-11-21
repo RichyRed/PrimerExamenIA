@@ -1,31 +1,33 @@
 # AutoBikeDetect: Tu Compañero de Identificación Vehicular 🚗🏍️🚴‍♂️
 
 ## Descripción 
-La aplicación del momento que utiliza tecnología de visión por computadora para identificar y clasificar vehículos. Con AutoBikeDetect, podrás reconocer y seguir autos, motos y bicicletas con precisión y rapidez, abriendo un nuevo mundo de posibilidades para la seguridad vial y la gestión del tráfico.
+AutoBikeDetect es la aplicación líder en tecnología de visión por computadora que permite identificar y clasificar vehículos de manera precisa. Con AutoBikeDetect, podrás reconocer y seguir automóviles, motocicletas y bicicletas con rapidez y precisión, abriendo nuevas posibilidades para la seguridad vial y la gestión del tráfico.
 
 ## Propósito
-AutoBikeDetect se propone revolucionar la gestión del tráfico y la seguridad vial al ofrecer una solución integral para la identificación precisa de autos, motos y bicicletas.
+AutoBikeDetect tiene como objetivo revolucionar la gestión del tráfico y la seguridad vial mediante la entrega de una solución integral para la identificación precisa de automóviles, motocicletas y bicicletas.
 
-## Para correrlo
-  * Primero debemos clonar el proyecto.
-  * Despues debemos correr el "predictor.py"
-  * Despues el "app.py"
-  * Cuando la aplicacion se lance debemos ir a la ruta "/docs" y listo
+## Cómo Ejecutar el Proyecto
+- Clona el repositorio en tu máquina local.
+- Ejecuta el script "predictor.py" para inicializar el modelo de detección de vehículos.
+- Luego, ejecuta el script "app.py" para iniciar la API.
+- Accede a la documentación en "/docs" para explorar y probar los endpoints.
 
-## Endpoints utilizados
+## Endpoints Utilizados
 La API de CarID tiene tres endpoints principales:
 
-## GET /status
-Este endpoint devuelve información importante sobre el estado del servicio de detección de autos.
+### GET /status
+Este endpoint proporciona información crucial sobre el estado del servicio de detección de vehículos.
 
-## POST /predict
-Este endpoint recibe una imagen y devuelve la imagen con la predicción de a qué marca pertenece, la confianza de la predicción y el tiempo de ejecución.
+### POST /predict
+Este endpoint acepta una imagen y devuelve la misma imagen con la predicción de la marca del vehículo, la confianza de la predicción y el tiempo de ejecución.
 
-## GET /reports
+### GET /reports
 Este endpoint guarda todas las predicciones realizadas a través del endpoint POST /predict y permite descargarlas como un archivo CSV con información relevante.
 
+### ¡Gracias por elegir AutoBikeDetect! Si tienes alguna pregunta o comentario, no dudes en ponerte en contacto con nosotros.
+
 ## Autor
-* Richard Alejandro Rojas Aguilar
-* 55077
+- **Richard Alejandro Rojas Aguilar**
+- **55077**
 
 
